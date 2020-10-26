@@ -35,6 +35,7 @@ namespace FitnessAPI.Controllers
 
             var user = await _context.Users
                 .Where(user => user.Email == emailAddress)
+                .Include(c => c.Sessions)
                 .FirstOrDefaultAsync();
             if (user == null)
             {
@@ -45,7 +46,6 @@ namespace FitnessAPI.Controllers
             user.Password = null;
 
             return user;
-
         }
 
         // Retrieve's a user's session data. Undergoes login again for security.
@@ -132,9 +132,6 @@ namespace FitnessAPI.Controllers
 
             return NoContent();
         }
-
-        // TODO: POST a new sessions info - only big imprtant thing left here
-
 
         private bool UserExists(int id)
         {
